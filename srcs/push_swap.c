@@ -6,13 +6,13 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:24:41 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/22 16:35:48 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/07/23 18:20:12 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_status	atoi_with_check(char *str, int *nbr)
+static t_status	atoi_with_check(char *str, int *nbr)
 {
 	int		i;
 	long	long_nbr;
@@ -37,7 +37,7 @@ t_status	atoi_with_check(char *str, int *nbr)
 	return (SUCCESS);
 }
 
-t_status	check_nbr_duplicate_in_stack(t_list *any_stack, int nbr)
+static t_status	check_nbr_duplicate_in_stack(t_list *any_stack, int nbr)
 {
 	t_list	*current_list;
 
@@ -51,7 +51,7 @@ t_status	check_nbr_duplicate_in_stack(t_list *any_stack, int nbr)
 	return (SUCCESS);
 }
 
-int		push_new_nbr_to_stack(t_list **any_stack, int nbr)
+static t_status	push_new_nbr_to_stack(t_list **any_stack, int nbr)
 {
 	t_list	*new_list;
 	int		*new_nbr;

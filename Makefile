@@ -1,4 +1,4 @@
-SRCNAME	:= push_swap.c debug.c
+SRCNAME	:= push_swap.c debug.c game_ope.c stack_ope.c
 SRCDIR	:= ./srcs/
 SRCS	:= $(addprefix $(SRCDIR), $(SRCNAME))
 
