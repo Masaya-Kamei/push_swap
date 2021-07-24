@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:24:41 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/23 18:20:12 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/07/24 18:51:27 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,61 +37,71 @@ static t_status	atoi_with_check(char *str, int *nbr)
 	return (SUCCESS);
 }
 
-static t_status	check_nbr_duplicate_in_stack(t_list *any_stack, int nbr)
+static t_status	check_duplicate_in_stack(t_stack stack, int nbr)
 {
-	t_list	*current_list;
+	int		i;
 
-	current_list = any_stack;
-	while (current_list != NULL)
+	i = stack.top;
+	while (i != stack.bottom)
 	{
-		if (*(int *)current_list->content == nbr)
+		if (stack.array[i] == nbr)
 			return (ERROR);
-		current_list = current_list->next;
+		i = (i + 1) % stack.size;
 	}
 	return (SUCCESS);
 }
 
-static t_status	push_new_nbr_to_stack(t_list **any_stack, int nbr)
+static t_stack	create_stack(int size)
 {
-	t_list	*new_list;
-	int		*new_nbr;
+	t_stack	stack;
 
-	new_nbr = (int *)malloc(sizeof(int) * 1);
-	if (new_nbr == NULL)
-		return (ERROR);
-	*new_nbr = nbr;
-	new_list = ft_lstnew(new_nbr);
-	if (new_list == NULL)
-		return (ERROR);
-	ft_lstadd_front(any_stack, new_list);
-	return (SUCCESS);
+	stack.array = (int *)malloc(sizeof(int) * size);
+	if (stack.array == NULL)
+		return (stack);
+	stack.top = 0;
+	stack.bottom = 0;
+	stack.depth = 0;
+	stack.size = size;
+	return (stack);
+}
+
+void	exit_by_error(t_stack stack[2])
+{
+	if (stack[A].array != NULL)
+	{
+		free(stack[A].array);
+		if (stack[B].array != NULL)
+			free(stack[B].array);
+	}
+	write(2, "Error\n", 6);
+	exit(1);
 }
 
 int	main(int argc, char **argv)
 {
-	int			i;
-	int			nbr;
-	t_list		*stack[2];
+	int		i;
+	int		nbr;
+	t_stack	stack[2];
 
 	if (argc <= 1)
 		return (0);
+	stack[A] = create_stack(argc);
+	if (stack[A].array == NULL)
+		exit_by_error(stack);
+	stack[B] = create_stack(argc);
+	if (stack[B].array == NULL)
+		exit_by_error(stack);
 	i = 1;
-	stack[A] = NULL;
-	stack[B] = NULL;
 	while (argv[i] != NULL)
 	{
 		if (atoi_with_check(argv[i], &nbr) == ERROR
-			|| check_nbr_duplicate_in_stack(stack[A], nbr) == ERROR
-			|| push_new_nbr_to_stack(&stack[A], nbr) == ERROR)
+			|| check_duplicate_in_stack(stack[A], nbr) == ERROR)
 		{
-			ft_lstclear(&stack[A], free);
-			ft_lstclear(&stack[B], free);
-			write(2, "Error\n", 6);
-			exit(1);
+			exit_by_error(stack);
 		}
+		push_to_stack_bottom(&stack[A], nbr);
 		i++;
 	}
 	print_stack(stack);
 	return (0);
 }
-

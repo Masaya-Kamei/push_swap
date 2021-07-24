@@ -6,49 +6,69 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 17:31:13 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/23 18:11:12 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/07/24 18:48:56 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	push_to_stack_top(t_list **any_stack, t_list *new_list)
+void	push_to_stack_top(t_stack *stack, int nbr)
 {
-	ft_lstadd_front(any_stack, new_list);
+	stack->top = (stack->top - 1 + stack->size) % stack->size;
+	stack->array[stack->top] = nbr;
+	stack->depth++;
 }
 
-void	push_to_stack_bottom(t_list **any_stack, t_list *new_list)
+void	push_to_stack_bottom(t_stack *stack, int nbr)
 {
-	ft_lstadd_back(any_stack, new_list);
+	stack->array[stack->bottom] = nbr;
+	stack->bottom = (stack->bottom + 1) % stack->size;
+	stack->depth++;
 }
 
-t_list	*pop_from_stack_top(t_list **any_stack)
+int	pop_from_stack_top(t_stack *stack)
 {
-	t_list	*top_list;
+	int		nbr;
 
-	if (*any_stack == NULL)
-		return (NULL);
-	top_list = *any_stack;
-	*any_stack = top_list->next;
-	top_list->next = NULL;
-	return (top_list);
+	nbr = stack->array[stack->top];
+	stack->top = (stack->top + 1) % stack->size;
+	stack->depth--;
+	return (nbr);
 }
 
-t_list	*pop_from_stack_bottom(t_list **any_stack)
+int	pop_from_stack_bottom(t_stack *stack)
 {
-	t_list	*prev_list;
-	t_list	*current_list;
+	int		nbr;
 
-	if (*any_stack == NULL)
-		return (NULL);
-	prev_list = NULL;
-	current_list = *any_stack;
-	while (current_list->next != NULL)
+	stack->bottom = (stack->bottom - 1 + stack->size) % stack->size;
+	nbr = stack->array[stack->bottom];
+	stack->depth--;
+	return (nbr);
+}
+
+void	print_stack(t_stack stack[2])
+{
+	const char	stack_name[2][4] = {"A: ", "B: "};
+	char		*nbr_str;
+	int			i;
+	int			j;
+
+	i = 0;
+	while (i <= 1)
 	{
-		prev_list = current_list;
-		current_list = current_list->next;
+		write(1, stack_name[i], 3);
+		j = stack[i].top;
+		while (j != stack[i].bottom)
+		{
+			nbr_str = ft_itoa(stack[i].array[j]);
+			if (nbr_str == NULL)
+				return ;
+			write(1, nbr_str, ft_strlen(nbr_str));
+			write(1, " ", 1);
+			free(nbr_str);
+			j = (j + 1) % stack[i].size;
+		}
+		write(1, "\n", 1);
+		i++;
 	}
-	if (prev_list != NULL)
-		prev_list->next = NULL;
-	return (current_list);
 }

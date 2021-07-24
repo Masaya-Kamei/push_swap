@@ -6,74 +6,60 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 16:26:50 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/23 18:18:19 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/07/24 18:50:10 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap_top_elems_in_stack(t_list *stack[2], t_stack_name swaped_stack)
+void	swap_top_elems_in_stack(t_stack stack[2], t_stack_name swaped_stack)
 {
-	t_list	*first_elem;
-	t_list	*second_elem;
+	const char	ope_name[2][4] = {"sa\n", "sb\n"};
+	int			nbr1;
+	int			nbr2;
 
-	if (swaped_stack == A)
-		write(2, "sa\n", 3);
-	else
-		write(2, "sb\n", 3);
-	if (stack[swaped_stack] == NULL || stack[swaped_stack]->next == NULL)
+	write(1, ope_name[swaped_stack], 3);
+	if (stack[swaped_stack].depth <= 1)
 		return ;
-	first_elem = pop_from_stack_top(&stack[swaped_stack]);
-	second_elem = pop_from_stack_top(&stack[swaped_stack]);
-	push_to_stack_top(&stack[swaped_stack], first_elem);
-	push_to_stack_top(&stack[swaped_stack], second_elem);
+	nbr1 = pop_from_stack_top(&stack[swaped_stack]);
+	nbr2 = pop_from_stack_top(&stack[swaped_stack]);
+	push_to_stack_top(&stack[swaped_stack], nbr1);
+	push_to_stack_top(&stack[swaped_stack], nbr2);
 }
 
-void	push_between_stacks(t_list *stack[2], t_stack_name pushed_stack)
+void	push_between_stacks(t_stack stack[2], t_stack_name pushed_stack)
 {
-	t_stack_name	poped_stack;
-	t_list			*top_elem;
+	const char			ope_name[2][4] = {"pa\n", "pb\n"};
+	const t_stack_name	poped_stack = (pushed_stack + 1) % 2;
+	int					nbr;
 
-	if (pushed_stack == A)
-	{
-		write(1, "pa\n", 3);
-		poped_stack = B;
-	}
-	else
-	{
-		write(1, "pb\n", 3);
-		poped_stack = A;
-	}
-	if (stack[poped_stack] == NULL)
+	write(1, ope_name[pushed_stack], 3);
+	if (stack[poped_stack].depth == 0)
 		return ;
-	top_elem = pop_from_stack_top(&stack[poped_stack]);
-	push_to_stack_top(&stack[pushed_stack], top_elem);
+	nbr = pop_from_stack_top(&stack[poped_stack]);
+	push_to_stack_top(&stack[pushed_stack], nbr);
 }
 
-void	rotate_stack_to_upward(t_list *stack[2], t_stack_name rotated_stack)
+void	rotate_stack_to_upward(t_stack stack[2], t_stack_name rotated_stack)
 {
-	t_list	*top_elem;
+	const char	ope_name[2][4] = {"ra\n", "rb\n"};
+	int			nbr;
 
-	if (rotated_stack == A)
-		write(1, "ra\n", 3);
-	else
-		write(1, "rb\n", 3);
-	if (stack[rotated_stack] == NULL || stack[rotated_stack]->next == NULL)
-			return ;
-	top_elem = pop_from_stack_top(&stack[rotated_stack]);
-	push_to_stack_bottom(&stack[rotated_stack], top_elem);
+	write(1, ope_name[rotated_stack], 3);
+	if (stack[rotated_stack].depth <= 1)
+		return ;
+	nbr = pop_from_stack_top(&stack[rotated_stack]);
+	push_to_stack_bottom(&stack[rotated_stack], nbr);
 }
 
-void	rotate_stack_to_downward(t_list *stack[2], t_stack_name rotated_stack)
+void	rotate_stack_to_downward(t_stack stack[2], t_stack_name rotated_stack)
 {
-	t_list	*bottom_elem;
+	const char	ope_name[2][5] = {"rra\n", "rrb\n"};
+	int			nbr;
 
-	if (rotated_stack == A)
-		write(1, "rra\n", 3);
-	else
-		write(1, "rrb\n", 3);
-	if (stack[rotated_stack] == NULL || stack[rotated_stack]->next == NULL)
-			return ;
-	bottom_elem = pop_from_stack_bottom(&stack[rotated_stack]);
-	push_to_stack_top(&stack[rotated_stack], bottom_elem);
+	write(1, ope_name[rotated_stack], 4);
+	if (stack[rotated_stack].depth <= 1)
+		return ;
+	nbr = pop_from_stack_bottom(&stack[rotated_stack]);
+	push_to_stack_top(&stack[rotated_stack], nbr);
 }
