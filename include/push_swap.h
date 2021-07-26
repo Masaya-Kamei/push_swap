@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:19:10 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/24 18:47:43 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/07/26 12:12:24 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # include "libft.h"
 #include <stdio.h>
 
+typedef enum e_bool{
+	FALSE	= 0,
+	TRUE	= 1
+}			t_bool;
+
 typedef enum e_status{
 	SUCCESS	= 0,
 	ERROR	= 1
@@ -23,7 +28,8 @@ typedef enum e_status{
 
 typedef enum e_stack_name{
 	A	= 0,
-	B	= 1
+	B	= 1,
+	AB	= 2
 }			t_stack_name;
 
 typedef struct s_stack{
