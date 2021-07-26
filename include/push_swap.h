@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:19:10 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/26 12:12:24 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/07/26 18:13:22 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_stack{
 	int		size;
 }			t_stack;
 
+void	start_game(t_stack stack[2]);
 void	swap_top_elems_in_stack(t_stack stack[2], t_stack_name swaped_stack);
 void	push_between_stacks(t_stack stack[2], t_stack_name pushed_stack);
 void	rotate_stack_to_upward(t_stack stack[2], t_stack_name rotated_stack);

@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:24:41 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/24 18:51:27 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/07/26 13:54:07 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	main(int argc, char **argv)
 		push_to_stack_bottom(&stack[A], nbr);
 		i++;
 	}
-	print_stack(stack);
+	// print_stack(stack);
+	start_game(stack);
 	return (0);
 }
