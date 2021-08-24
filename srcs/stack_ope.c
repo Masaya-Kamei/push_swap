@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 17:31:13 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/24 18:48:56 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/24 11:14:40 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,37 @@
 
 void	push_to_stack_top(t_stack *stack, int nbr)
 {
-	stack->top = (stack->top - 1 + stack->size) % stack->size;
-	stack->array[stack->top] = nbr;
+	int i;
+
+	i = stack->depth;
+	while (i > 0)
+	{
+		stack->array[i] = stack->array[i - 1];
+		i--;
+	}
+	stack->array[0] = nbr;
 	stack->depth++;
 }
 
 void	push_to_stack_bottom(t_stack *stack, int nbr)
 {
-	stack->array[stack->bottom] = nbr;
-	stack->bottom = (stack->bottom + 1) % stack->size;
+	stack->array[stack->depth] = nbr;
 	stack->depth++;
 }
 
 int	pop_from_stack_top(t_stack *stack)
 {
 	int		nbr;
+	int		i;
 
-	nbr = stack->array[stack->top];
-	stack->top = (stack->top + 1) % stack->size;
+	nbr = stack->array[0];
 	stack->depth--;
+	i = 0;
+	while (i < stack->depth)
+	{
+		stack->array[i] = stack->array[i + 1];
+		i++;
+	}
 	return (nbr);
 }
 
@@ -40,8 +52,7 @@ int	pop_from_stack_bottom(t_stack *stack)
 {
 	int		nbr;
 
-	stack->bottom = (stack->bottom - 1 + stack->size) % stack->size;
-	nbr = stack->array[stack->bottom];
+	nbr = stack->array[stack->depth - 1];
 	stack->depth--;
 	return (nbr);
 }
@@ -57,8 +68,8 @@ void	print_stack(t_stack stack[2])
 	while (i <= 1)
 	{
 		write(1, stack_name[i], 3);
-		j = stack[i].top;
-		while (j != stack[i].bottom)
+		j = 0;
+		while (j != stack[i].depth)
 		{
 			nbr_str = ft_itoa(stack[i].array[j]);
 			if (nbr_str == NULL)
@@ -66,7 +77,7 @@ void	print_stack(t_stack stack[2])
 			write(1, nbr_str, ft_strlen(nbr_str));
 			write(1, " ", 1);
 			free(nbr_str);
-			j = (j + 1) % stack[i].size;
+			j++;
 		}
 		write(1, "\n", 1);
 		i++;
