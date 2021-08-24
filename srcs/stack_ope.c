@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 17:31:13 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/24 11:14:40 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/24 11:56:39 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	push_to_stack_top(t_stack *stack, int nbr)
 {
-	int i;
+	int		i;
 
 	i = stack->depth;
 	while (i > 0)
