@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:24:41 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/25 12:08:39 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/25 17:58:11 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_status	check_duplicate_in_stack(t_stack stack, int nbr)
 	return (SUCCESS);
 }
 
-void	exit_by_error(t_stack stack[2])
+static void	exit_by_error(t_stack stack[2])
 {
 	if (stack != NULL)
 	{
