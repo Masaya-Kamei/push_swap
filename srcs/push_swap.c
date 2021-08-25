@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:24:41 by mkamei            #+#    #+#             */
-/*   Updated: 2021/07/26 13:54:07 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/25 12:08:39 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_status	atoi_with_check(char *str, int *nbr)
 			return (ERROR);
 		long_nbr = (long_nbr * 10) + str[i] - '0';
 		if ((str[0] != '-' && long_nbr > INT32_MAX)
-			|| (str[0] == '-' && -long_nbr < INT32_MIN))
+			|| (str[0] == '-' && - long_nbr < INT32_MIN))
 			return (ERROR);
 		i++;
 	}
@@ -41,37 +41,22 @@ static t_status	check_duplicate_in_stack(t_stack stack, int nbr)
 {
 	int		i;
 
-	i = stack.top;
-	while (i != stack.bottom)
+	i = 0;
+	while (i != stack.depth)
 	{
 		if (stack.array[i] == nbr)
 			return (ERROR);
-		i = (i + 1) % stack.size;
+		i++;
 	}
 	return (SUCCESS);
 }
 
-static t_stack	create_stack(int size)
-{
-	t_stack	stack;
-
-	stack.array = (int *)malloc(sizeof(int) * size);
-	if (stack.array == NULL)
-		return (stack);
-	stack.top = 0;
-	stack.bottom = 0;
-	stack.depth = 0;
-	stack.size = size;
-	return (stack);
-}
-
 void	exit_by_error(t_stack stack[2])
 {
-	if (stack[A].array != NULL)
+	if (stack != NULL)
 	{
 		free(stack[A].array);
-		if (stack[B].array != NULL)
-			free(stack[B].array);
+		free(stack[B].array);
 	}
 	write(2, "Error\n", 6);
 	exit(1);
@@ -85,24 +70,23 @@ int	main(int argc, char **argv)
 
 	if (argc <= 1)
 		return (0);
-	stack[A] = create_stack(argc);
+	stack[A].array = (int *)malloc(sizeof(int) * argc);
 	if (stack[A].array == NULL)
-		exit_by_error(stack);
-	stack[B] = create_stack(argc);
+		exit_by_error(NULL);
+	stack[B].array = (int *)malloc(sizeof(int) * argc);
 	if (stack[B].array == NULL)
 		exit_by_error(stack);
+	stack[A].depth = 0;
+	stack[B].depth = 0;
 	i = 1;
 	while (argv[i] != NULL)
 	{
 		if (atoi_with_check(argv[i], &nbr) == ERROR
 			|| check_duplicate_in_stack(stack[A], nbr) == ERROR)
-		{
 			exit_by_error(stack);
-		}
 		push_to_stack_bottom(&stack[A], nbr);
 		i++;
 	}
-	// print_stack(stack);
 	start_game(stack);
 	return (0);
 }
