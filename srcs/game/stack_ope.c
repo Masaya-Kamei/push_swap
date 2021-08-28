@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 17:31:13 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/24 11:56:39 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/28 18:25:13 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,16 @@ int	pop_from_stack_bottom(t_stack *stack)
 	return (nbr);
 }
 
-void	print_stack(t_stack stack[2])
+t_bool	check_sort(t_stack stack)
 {
-	const char	stack_name[2][4] = {"A: ", "B: "};
-	char		*nbr_str;
-	int			i;
-	int			j;
+	int		i;
 
 	i = 0;
-	while (i <= 1)
+	while (i + 1 != stack.depth)
 	{
-		write(1, stack_name[i], 3);
-		j = 0;
-		while (j != stack[i].depth)
-		{
-			nbr_str = ft_itoa(stack[i].array[j]);
-			if (nbr_str == NULL)
-				return ;
-			write(1, nbr_str, ft_strlen(nbr_str));
-			write(1, " ", 1);
-			free(nbr_str);
-			j++;
-		}
-		write(1, "\n", 1);
+		if (stack.array[i] + 1 != stack.array[i + 1])
+			return (0);
 		i++;
 	}
+	return (1);
 }

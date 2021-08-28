@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   init_stack.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/17 12:24:41 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/25 17:58:11 by mkamei           ###   ########.fr       */
+/*   Created: 2021/07/23 18:19:14 by mkamei            #+#    #+#             */
+/*   Updated: 2021/08/28 18:48:13 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,32 @@ static t_status	check_duplicate_in_stack(t_stack stack, int nbr)
 	return (SUCCESS);
 }
 
+static void	change_stack_value_simply(t_stack stack)
+{
+	int		new_value;
+	int		*current_min;
+	int		i;
+	int		count;
+
+	new_value = INT32_MIN;
+	count = -1;
+	while (++count != stack.depth)
+	{
+		current_min = NULL;
+		i = -1;
+		while (++i != stack.depth)
+		{
+			if (new_value <= stack.array[i]
+				&& (current_min == NULL || *current_min > stack.array[i]))
+				current_min = &stack.array[i];
+		}
+		*current_min = new_value++;
+	}
+	i = -1;
+	while (++i != stack.depth)
+		stack.array[i] += -INT32_MIN;
+}
+
 static void	exit_by_error(t_stack stack[2])
 {
 	if (stack != NULL)
@@ -62,14 +88,11 @@ static void	exit_by_error(t_stack stack[2])
 	exit(1);
 }
 
-int	main(int argc, char **argv)
+void	init_stack(int argc, char **argv, t_stack stack[2])
 {
 	int		i;
 	int		nbr;
-	t_stack	stack[2];
 
-	if (argc <= 1)
-		return (0);
 	stack[A].array = (int *)malloc(sizeof(int) * argc);
 	if (stack[A].array == NULL)
 		exit_by_error(NULL);
@@ -87,6 +110,5 @@ int	main(int argc, char **argv)
 		push_to_stack_bottom(&stack[A], nbr);
 		i++;
 	}
-	start_game(stack);
-	return (0);
+	change_stack_value_simply(stack[A]);
 }

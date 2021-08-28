@@ -1,10 +1,21 @@
-SRCNAME	:= push_swap.c game_ope.c stack_ope.c game.c sort.c
-SRCDIR	:= ./srcs/
-SRCS	:= $(addprefix $(SRCDIR), $(SRCNAME))
+GAMESRCNAME	:= game_ope.c init_stack.c stack_ope.c
+GAMESRCDIR	:= ./srcs/game/
+GAMESRCS	:= $(addprefix $(GAMESRCDIR), $(GAMESRCNAME))
+GAMEOBJS	:= $(GAMESRCS:.c=.o)
 
-OBJS	:= $(SRCS:.c=.o)
+PUSHSWAPSRCNAME	:= push_swap.c sort_less5.c sort.c
+PUSHSWAPSRCDIR	:= ./srcs/pushswap/
+PUSHSWAPSRCS	:= $(addprefix $(PUSHSWAPSRCDIR), $(PUSHSWAPSRCNAME))
+PUSHSWAPOBJS	:= $(PUSHSWAPSRCS:.c=.o)
+
+CHECKERSRCNAME	:=
+CHECKERSRCDIR	:= ./srcs/checher/
+CHECKERSRCS		:= $(addprefix $(CHECKERSRCDIR), $(CHECKERSRCNAME))
+CHECKEROBJS		:= $(CHECKERSRCS:.c=.o)
+
 INCLUDE := -I./include/
 NAME	:= push_swap
+CHECKER := checker
 
 LIBFT		:= ./libft/libft.a
 LIBFTTARGET	:= all
@@ -26,18 +37,21 @@ all		:	$(NAME)
 .c.o	:
 			$(CC) $(CFLAGS) $(INCLUDE) $(LIBINCLUDE) -c $< -o $(<:.c=.o)
 
-$(NAME)	:	$(LIBFT) $(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LIBINCLUDE) $(LIBDIR) $(LIBLINK) -o $(NAME)
+$(NAME)	:	$(LIBFT) $(PUSHSWAPOBJS) $(GAMEOBJS)
+			$(CC) $(CFLAGS) $(INCLUDE) $(PUSHSWAPOBJS) $(GAMEOBJS) $(LIBINCLUDE) $(LIBDIR) $(LIBLINK) -o $(NAME)
+
+$(CHECKER):	$(LIBFT) $(CHECKEROBJS) $(GAMEOBJS)
+			$(CC) $(CFLAGS) $(INCLUDE) $(CHECKEROBJS) $(GAMEOBJS) $(LIBINCLUDE) $(LIBDIR) $(LIBLINK) -o $(NAME)
 
 $(LIBFT):
 			make $(LIBFTTARGET) -C $(LIBFTDIR)
 
 clean	:
-			$(RM) $(OBJS)
+			$(RM) $(PUSHSWAPOBJS) $(CHECKEROBJS) $(GAMEOBJS)
 			make clean -C $(LIBFTDIR)
 
 fclean	: 	clean
-			$(RM) $(NAME)
+			$(RM) $(NAME) $(CHECKER)
 			make fclean -C $(LIBFTDIR)
 
 re		:	fclean all
