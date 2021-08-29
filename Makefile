@@ -3,7 +3,7 @@ GAMESRCDIR	:= ./srcs/game/
 GAMESRCS	:= $(addprefix $(GAMESRCDIR), $(GAMESRCNAME))
 GAMEOBJS	:= $(GAMESRCS:.c=.o)
 
-PUSHSWAPSRCNAME	:= push_swap.c sort_less5.c sort.c
+PUSHSWAPSRCNAME	:= push_swap.c sort_less5.c quick_sort.c
 PUSHSWAPSRCDIR	:= ./srcs/pushswap/
 PUSHSWAPSRCS	:= $(addprefix $(PUSHSWAPSRCDIR), $(PUSHSWAPSRCNAME))
 PUSHSWAPOBJS	:= $(PUSHSWAPSRCS:.c=.o)
