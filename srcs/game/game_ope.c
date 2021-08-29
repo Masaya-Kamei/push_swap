@@ -6,11 +6,11 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 16:26:50 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/24 11:55:53 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/29 13:33:46 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "game.h"
 
 void	swap(t_stack stack[2], t_stack_name swaped_stack)
 {

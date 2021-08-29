@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:19:00 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/28 18:33:07 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/29 13:37:33 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_stack{
 	int		depth;
 }			t_stack;
 
+typedef void	(*t_game_ope)(t_stack stack[2], t_stack_name name);
+
 // init_stack
 void	init_stack(int argc, char **argv, t_stack stack[2]);
 
@@ -51,6 +53,11 @@ void	push_to_stack_top(t_stack *stack, int nbr);
 void	push_to_stack_bottom(t_stack *stack, int nbr);
 int		pop_from_stack_top(t_stack *stack);
 int		pop_from_stack_bottom(t_stack *stack);
+
+// utils
+void	exit_by_error(t_stack stack[2]);
+void	exec_opes(t_stack stack[2], t_stack_name name, const t_game_ope *opes);
 t_bool	check_sort(t_stack stack);
+void	print_stack(t_stack stack[2]);
 
 #endif

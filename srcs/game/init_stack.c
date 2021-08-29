@@ -6,11 +6,11 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 18:19:14 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/28 18:48:13 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/29 13:35:40 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "game.h"
 
 static t_status	atoi_with_check(char *str, int *nbr)
 {
@@ -75,17 +75,6 @@ static void	change_stack_value_simply(t_stack stack)
 	i = -1;
 	while (++i != stack.depth)
 		stack.array[i] += -INT32_MIN;
-}
-
-static void	exit_by_error(t_stack stack[2])
-{
-	if (stack != NULL)
-	{
-		free(stack[A].array);
-		free(stack[B].array);
-	}
-	write(2, "Error\n", 6);
-	exit(1);
 }
 
 void	init_stack(int argc, char **argv, t_stack stack[2])

@@ -1,14 +1,14 @@
-GAMESRCNAME	:= game_ope.c init_stack.c stack_ope.c
+GAMESRCNAME	:= game_ope.c game_utils.c init_stack.c stack_ope.c
 GAMESRCDIR	:= ./srcs/game/
 GAMESRCS	:= $(addprefix $(GAMESRCDIR), $(GAMESRCNAME))
 GAMEOBJS	:= $(GAMESRCS:.c=.o)
 
-PUSHSWAPSRCNAME	:= push_swap.c sort_less5.c quick_sort.c
+PUSHSWAPSRCNAME	:= push_swap.c sort.c
 PUSHSWAPSRCDIR	:= ./srcs/pushswap/
 PUSHSWAPSRCS	:= $(addprefix $(PUSHSWAPSRCDIR), $(PUSHSWAPSRCNAME))
 PUSHSWAPOBJS	:= $(PUSHSWAPSRCS:.c=.o)
 
-CHECKERSRCNAME	:=
+CHECKERSRCNAME	:= checker.c
 CHECKERSRCDIR	:= ./srcs/checher/
 CHECKERSRCS		:= $(addprefix $(CHECKERSRCDIR), $(CHECKERSRCNAME))
 CHECKEROBJS		:= $(CHECKERSRCS:.c=.o)
