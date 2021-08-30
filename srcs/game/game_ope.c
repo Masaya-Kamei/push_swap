@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 16:26:50 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 13:30:22 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/30 19:04:43 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ void	swap(t_stack stack[2], t_stack_name swaped_stack, t_bool write_flag)
 
 	if (write_flag == 1)
 		write(1, ope_name[swaped_stack], 3);
-	if (swaped_stack == A || swaped_stack == AB)
+	if ((swaped_stack == A || swaped_stack == AB) && stack[A].depth >= 2)
 	{
 		nbr1 = pop_from_stack_top(&stack[A]);
 		nbr2 = pop_from_stack_top(&stack[A]);
 		push_to_stack_top(&stack[A], nbr1);
 		push_to_stack_top(&stack[A], nbr2);
 	}
-	if (swaped_stack == B || swaped_stack == AB)
+	if ((swaped_stack == B || swaped_stack == AB) && stack[B].depth >= 2)
 	{
 		nbr1 = pop_from_stack_top(&stack[B]);
 		nbr2 = pop_from_stack_top(&stack[B]);
@@ -44,8 +44,11 @@ void	push(t_stack stack[2], t_stack_name pushed_stack, t_bool write_flag)
 
 	if (write_flag == 1)
 		write(1, ope_name[pushed_stack], 3);
-	nbr = pop_from_stack_top(&stack[poped_stack]);
-	push_to_stack_top(&stack[pushed_stack], nbr);
+	if (stack[poped_stack].depth >= 1)
+	{
+		nbr = pop_from_stack_top(&stack[poped_stack]);
+		push_to_stack_top(&stack[pushed_stack], nbr);
+	}
 }
 
 void	rotate(t_stack stack[2], t_stack_name rotated_stack, t_bool write_flag)
@@ -55,12 +58,12 @@ void	rotate(t_stack stack[2], t_stack_name rotated_stack, t_bool write_flag)
 
 	if (write_flag == 1)
 		write(1, ope_name[rotated_stack], 3);
-	if (rotated_stack == A || rotated_stack == AB)
+	if ((rotated_stack == A || rotated_stack == AB) && stack[A].depth >= 2)
 	{
 		nbr = pop_from_stack_top(&stack[A]);
 		push_to_stack_bottom(&stack[A], nbr);
 	}
-	if (rotated_stack == B || rotated_stack == AB)
+	if ((rotated_stack == B || rotated_stack == AB) && stack[B].depth >= 2)
 	{
 		nbr = pop_from_stack_top(&stack[B]);
 		push_to_stack_bottom(&stack[B], nbr);
@@ -75,12 +78,12 @@ void	rrotate(
 
 	if (write_flag == 1)
 		write(1, ope_name[rrotated_stack], 4);
-	if (rrotated_stack == A || rrotated_stack == AB)
+	if ((rrotated_stack == A || rrotated_stack == AB) && stack[A].depth >= 2)
 	{
 		nbr = pop_from_stack_bottom(&stack[A]);
 		push_to_stack_top(&stack[A], nbr);
 	}
-	if (rrotated_stack == B || rrotated_stack == AB)
+	if ((rrotated_stack == B || rrotated_stack == AB) && stack[B].depth >= 2)
 	{
 		nbr = pop_from_stack_bottom(&stack[B]);
 		push_to_stack_top(&stack[B], nbr);
