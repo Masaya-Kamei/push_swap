@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 18:19:00 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/29 13:37:33 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:33:09 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,20 @@ typedef struct s_stack{
 	int		depth;
 }			t_stack;
 
-typedef void	(*t_game_ope)(t_stack stack[2], t_stack_name name);
+typedef void	(*t_game_ope)(
+					t_stack stack[2], t_stack_name name, t_bool write_flag);
 
 // init_stack
 void	init_stack(int argc, char **argv, t_stack stack[2]);
 
 // game_ope
-void	swap(t_stack stack[2], t_stack_name swaped_stack);
-void	push(t_stack stack[2], t_stack_name pushed_stack);
-void	rotate(t_stack stack[2], t_stack_name rotated_stack);
-void	rrotate(t_stack stack[2], t_stack_name rotated_stack);
-void	push_and_rotate(t_stack stack[2], t_stack_name pushed_stack);
+void	swap(t_stack stack[2], t_stack_name swaped_stack, t_bool write_flag);
+void	push(t_stack stack[2], t_stack_name pushed_stack, t_bool write_flag);
+void	rotate(t_stack stack[2], t_stack_name rotated_stack, t_bool write_flag);
+void	rrotate(
+			t_stack stack[2], t_stack_name rrotated_stack, t_bool write_flag);
+void	push_and_rotate(
+			t_stack stack[2], t_stack_name pushed_stack, t_bool write_flag);
 
 // stack_ope
 void	push_to_stack_top(t_stack *stack, int nbr);
@@ -56,7 +59,8 @@ int		pop_from_stack_bottom(t_stack *stack);
 
 // utils
 void	exit_by_error(t_stack stack[2]);
-void	exec_opes(t_stack stack[2], t_stack_name name, const t_game_ope *opes);
+void	exec_opes(t_stack stack[2],
+			t_stack_name name, t_bool write_flag, const t_game_ope *opes);
 t_bool	check_sort(t_stack stack);
 void	print_stack(t_stack stack[2]);
 
