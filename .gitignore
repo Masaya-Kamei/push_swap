@@ -1,8 +1,9 @@
 a.out
-push_swap
 libft.a
 *.o
 *.txt
 test.c
 test.sh
-checker_Mac
+/push_swap
+/checker_Mac
+/checker
