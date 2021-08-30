@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:19:10 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 13:33:47 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:43:42 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef enum e_order{
 	NORMAL	= 0,
-	REVERCE	= 1
+	REVERSE	= 1
 }			t_order;
 
 // sort

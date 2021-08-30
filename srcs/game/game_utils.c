@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 13:33:31 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 13:32:53 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:41:42 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exit_by_error(t_stack stack[2])
 	exit(1);
 }
 
-void	exec_opes(t_stack stack[2],
+void	execute_game_opes(t_stack stack[2],
 	t_stack_name name, t_bool write_flag, const t_game_ope *opes)
 {
 	int		i;
