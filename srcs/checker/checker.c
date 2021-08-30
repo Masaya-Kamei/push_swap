@@ -6,11 +6,12 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 17:48:08 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 13:54:44 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/30 15:13:12 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
+#include <stdio.h>
 
 static int	read_until_newline(char buf[BUFFERSIZE])
 {
@@ -39,11 +40,9 @@ static t_status	execute_game_ope_strs(t_stack stack[2], char **ope_strs)
 	int					i;
 	int					j;
 	const char			ope_names[11][4]
-		= {"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"};
-	const t_game_ope	ope_funcs[11]
-		= {swap, swap, swap, push, push,
-			rotate, rotate, rotate, rrotate, rrotate, rrotate};
-	const t_stack_name	second_args[11] = {A, B, AB, A, B, A, B, AB, A, B, AB};
+		= {"sa", "sb", "ss", "ra", "rb", "rr", "rra", "rrb", "rrr", "pa", "pb"};
+	const t_game_ope	ope_funcs[4] = {swap, rotate, rrotate, push};
+	const t_stack_name	second_args[3] = {A, B, AB};
 
 	i = -1;
 	while (ope_strs[++i] != NULL)
@@ -53,13 +52,15 @@ static t_status	execute_game_ope_strs(t_stack stack[2], char **ope_strs)
 		{
 			if (ft_strncmp(ope_strs[i], ope_names[j], 4) == 0)
 			{
-				ope_funcs[j](stack, second_args[j], OPE_WRITE_FLAG);
+				ope_funcs[j / 3](stack, second_args[j % 3], OPE_WRITE_FLAG);
 				break ;
 			}
 		}
 		if (j == 11)
 			return (ERROR);
 	}
+	if (i == 0)
+		return (ERROR);
 	return (SUCCESS);
 }
 
@@ -84,8 +85,6 @@ static void	receive_game_opes(t_stack stack[2])
 	t_status	status;
 
 	readsize = read_until_newline(buf);
-	if (readsize <= 0)
-		exit_by_error(stack);
 	while (readsize != 0)
 	{
 		if (readsize == -1)
