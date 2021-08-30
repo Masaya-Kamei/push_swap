@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 17:48:08 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 13:39:43 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:54:44 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	read_until_newline(char buf[BUFFERSIZE])
 	return (readsize);
 }
 
-static t_status	exec_ope_strs(t_stack stack[2], char **ope_strs)
+static t_status	execute_game_ope_strs(t_stack stack[2], char **ope_strs)
 {
 	int					i;
 	int					j;
@@ -94,7 +94,7 @@ static void	receive_game_opes(t_stack stack[2])
 		ope_strs = ft_split(buf, '\n');
 		if (ope_strs == NULL)
 			exit_by_error(stack);
-		status = exec_ope_strs(stack, ope_strs);
+		status = execute_game_ope_strs(stack, ope_strs);
 		free_double_pointer(ope_strs);
 		if (status == ERROR)
 			exit_by_error(stack);
