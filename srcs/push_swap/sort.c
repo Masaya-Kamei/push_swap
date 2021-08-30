@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 17:44:22 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 13:35:23 by mkamei           ###   ########.fr       */
+/*   Updated: 2021/08/30 13:43:28 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	sort_less5(t_stack stack[2], int min, int max)
 	else if (len == 3)
 	{
 		f = ((stack[A].array[0] * 2) + (stack[A].array[1] > stack[A].array[2]));
-		exec_opes(stack, A, opes_len3[f], OPE_WRITE_FLAG);
+		execute_game_opes(stack, A, OPE_WRITE_FLAG, opes_len3[f]);
 		while (stack[B].depth > 0)
 			push_and_rotate(stack, A, OPE_WRITE_FLAG);
 		return ;
@@ -55,9 +55,9 @@ static void	bubble_sort_less4(
 	else if (len >= 2 && stack[name].array[1] == min)
 		swap(stack, name, OPE_WRITE_FLAG);
 	else if (len >= 3 && stack[name].array[2] == min)
-		exec_opes(stack, name, opes1, OPE_WRITE_FLAG);
+		execute_game_opes(stack, name, OPE_WRITE_FLAG, opes1);
 	else if (len == 4 && stack[name].array[3] == min)
-		exec_opes(stack, name, opes2, OPE_WRITE_FLAG);
+		execute_game_opes(stack, name, OPE_WRITE_FLAG, opes2);
 	if (name == B)
 		push(stack, A, OPE_WRITE_FLAG);
 	rotate(stack, A, OPE_WRITE_FLAG);
@@ -94,7 +94,7 @@ static int	count_rised_num_from_min(
 	return (count);
 }
 
-static void	reverce_quick_sort(
+static void	reverse_quick_sort(
 	t_stack stack[2], t_stack_name name, int min, int max)
 {
 	int		len;
@@ -110,7 +110,7 @@ static void	reverce_quick_sort(
 		return (quick_sort(stack, name, min, max));
 	}
 	if (name == B)
-		min += count_rised_num_from_min(stack[B], REVERCE, min, max);
+		min += count_rised_num_from_min(stack[B], REVERSE, min, max);
 	median = (min + max) / 2;
 	while (--len >= 0)
 	{
@@ -144,6 +144,6 @@ void	quick_sort(t_stack stack[2], t_stack_name name, int min, int max)
 		else
 			rotate(stack, name, OPE_WRITE_FLAG);
 	}
-	reverce_quick_sort(stack, name, min, median);
+	reverse_quick_sort(stack, name, min, median);
 	quick_sort(stack, (name + 1) % 2, median + 1, max);
 }
