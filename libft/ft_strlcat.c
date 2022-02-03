@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 17:49:33 by mkamei            #+#    #+#             */
-/*   Updated: 2020/10/18 15:10:20 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/01/24 15:48:13 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,9 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	d_len;
-	size_t	s_index;
+	const size_t	d_len = ft_strlen(dst);
 
-	d_len = ft_strlen(dst);
-	if (d_len >= size || size == 0)
-		return (ft_strlen(src) + size);
-	s_index = 0;
-	while ((d_len + s_index) < (size - 1) && src[s_index] != '\0')
-	{
-		dst[d_len + s_index] = src[s_index];
-		s_index++;
-	}
-	dst[d_len + s_index] = '\0';
-	return (d_len + ft_strlen(src));
+	if (d_len >= size)
+		return (size + ft_strlen(src));
+	return (d_len + ft_strlcpy(&dst[d_len], src, size - d_len));
 }
