@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_stack.c                                       :+:      :+:    :+:   */
+/*   init_stacks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 18:19:14 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/29 13:35:40 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/02/05 13:08:03 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static t_status	atoi_with_check(char *str, int *nbr)
+static t_status	atoi_with_check(const char *str, int *nbr)
 {
 	int		i;
 	long	long_nbr;
@@ -37,7 +37,7 @@ static t_status	atoi_with_check(char *str, int *nbr)
 	return (SUCCESS);
 }
 
-static t_status	check_duplicate_in_stack(t_stack stack, int nbr)
+static t_status	check_duplicate_in_stack(t_stack stack, const int nbr)
 {
 	int		i;
 
@@ -74,30 +74,31 @@ static void	change_stack_value_simply(t_stack stack)
 	}
 	i = -1;
 	while (++i != stack.depth)
-		stack.array[i] += -INT32_MIN;
+		stack.array[i] += ((long)INT32_MAX + 1);
 }
 
-void	init_stack(int argc, char **argv, t_stack stack[2])
+void	init_stacks(int argc, char **argv, t_stack stacks[2])
 {
 	int		i;
 	int		nbr;
 
-	stack[A].array = (int *)malloc(sizeof(int) * argc);
-	if (stack[A].array == NULL)
+	stacks[A].array = (int *)malloc(sizeof(int) * argc);
+	if (stacks[A].array == NULL)
 		exit_by_error(NULL);
-	stack[B].array = (int *)malloc(sizeof(int) * argc);
-	if (stack[B].array == NULL)
-		exit_by_error(stack);
-	stack[A].depth = 0;
-	stack[B].depth = 0;
+	stacks[B].array = (int *)malloc(sizeof(int) * argc);
+	if (stacks[B].array == NULL)
+		exit_by_error(stacks);
+	stacks[A].depth = 0;
+	stacks[B].depth = 0;
 	i = 1;
-	while (argv[i] != NULL)
+	while (argv[i])
 	{
 		if (atoi_with_check(argv[i], &nbr) == ERROR
-			|| check_duplicate_in_stack(stack[A], nbr) == ERROR)
-			exit_by_error(stack);
-		push_to_stack_bottom(&stack[A], nbr);
+			|| check_duplicate_in_stack(stacks[A], nbr) == ERROR
+			|| stacks[A].depth == INT32_MAX)
+			exit_by_error(stacks);
+		push_to_stack_bottom(&stacks[A], nbr);
 		i++;
 	}
-	change_stack_value_simply(stack[A]);
+	change_stack_value_simply(stacks[A]);
 }

@@ -1,42 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_utils.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/29 13:33:31 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 13:41:42 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/02/05 12:46:33 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-void	exit_by_error(t_stack stack[2])
+void	free_stacks_array(const t_stack stacks[2])
 {
-	if (stack != NULL)
-	{
-		free(stack[A].array);
-		free(stack[B].array);
-	}
-	write(2, "Error\n", 6);
+	free(stacks[A].array);
+	free(stacks[B].array);
+}
+
+void	exit_by_error(const t_stack stacks[2])
+{
+	if (stacks)
+		free_stacks_array(stacks);
+	write(STDERR_FILENO, "Error\n", 6);
 	exit(1);
 }
 
-void	execute_game_opes(t_stack stack[2],
-	t_stack_name name, t_bool write_flag, const t_game_ope *opes)
+void	execute_game_opes(t_stack stacks[2],
+	const t_stack_name name, const bool write_flag, const t_game_ope *opes)
 {
 	int		i;
 
 	i = 0;
-	while (opes[i] != NULL)
+	while (opes[i])
 	{
-		opes[i](stack, name, write_flag);
+		opes[i](stacks, name, write_flag);
 		i++;
 	}
 }
 
-t_bool	check_sort(t_stack stack)
+bool	check_sort_stack(const t_stack stack)
 {
 	int		i;
 
@@ -50,9 +53,9 @@ t_bool	check_sort(t_stack stack)
 	return (1);
 }
 
-void	print_stack(t_stack stack[2])
+void	print_stacks(const t_stack stacks[2])
 {
-	const char	stack_name[2][4] = {"A: ", "B: "};
+	const char	stack_names[2][4] = {"A: ", "B: "};
 	char		*nbr_str;
 	int			i;
 	int			j;
@@ -60,19 +63,19 @@ void	print_stack(t_stack stack[2])
 	i = 0;
 	while (i <= 1)
 	{
-		write(1, stack_name[i], 3);
+		write(STDOUT_FILENO, stack_names[i], 3);
 		j = 0;
-		while (j != stack[i].depth)
+		while (j != stacks[i].depth)
 		{
-			nbr_str = ft_itoa(stack[i].array[j]);
+			nbr_str = ft_itoa(stacks[i].array[j]);
 			if (nbr_str == NULL)
 				return ;
-			write(1, nbr_str, ft_strlen(nbr_str));
-			write(1, " ", 1);
+			write(STDOUT_FILENO, nbr_str, ft_strlen(nbr_str));
+			write(STDOUT_FILENO, " ", 1);
 			free(nbr_str);
 			j++;
 		}
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		i++;
 	}
 }

@@ -1,7 +1,7 @@
 SRCSDIR	:= srcs
 OBJSDIR	:= objs
 
-GAME_SRCSNAME	:= init_stack.c game_ope.c stack_ope.c utils.c
+GAME_SRCSNAME	:= init_stacks.c game_ope.c stack_ope.c utils.c
 GAME_SRCSDIR	:= $(addprefix $(SRCSDIR)/,game)
 GAME_SRCS		:= $(addprefix $(GAME_SRCSDIR)/, $(GAME_SRCSNAME))
 GAME_OBJSDIR	:= $(addprefix $(OBJSDIR)/,game)

@@ -6,13 +6,13 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/23 17:31:13 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/29 13:35:27 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/02/03 18:32:16 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-void	push_to_stack_top(t_stack *stack, int nbr)
+void	push_to_stack_top(t_stack *stack, const int nbr)
 {
 	int		i;
 
@@ -26,7 +26,7 @@ void	push_to_stack_top(t_stack *stack, int nbr)
 	stack->depth++;
 }
 
-void	push_to_stack_bottom(t_stack *stack, int nbr)
+void	push_to_stack_bottom(t_stack *stack, const int nbr)
 {
 	stack->array[stack->depth] = nbr;
 	stack->depth++;

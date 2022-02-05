@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/17 12:24:41 by mkamei            #+#    #+#             */
-/*   Updated: 2022/02/03 17:12:26 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/02/05 13:17:55 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,20 @@
 
 int	main(int argc, char **argv)
 {
-	t_stack	stack[2];
+	t_stack	stacks[2];
 
 	if (argc <= 1)
 		return (0);
-	init_stack(argc, argv, stack);
-	if (check_sort(stack[A]) == 1)
+	init_stacks(argc, argv, stacks);
+	if (check_sort_stack(stacks[A]) == 1)
 	{
-		free(stack[A].array);
-		free(stack[B].array);
+		free_stacks_array(stacks);
 		return (0);
 	}
-	if (stack[A].depth <= 5)
-		sort_less5(stack, 0, stack[A].depth - 1);
+	if (stacks[A].depth <= 5)
+		sort_5or_less(stacks, 0, stacks[A].depth - 1);
 	else
-		quick_sort(stack, A, 0, stack[A].depth - 1);
-	free(stack[A].array);
-	free(stack[B].array);
+		quick_sort_6or_more(stacks, A, 0, stacks[A].depth - 1);
+	free_stacks_array(stacks);
 	return (0);
 }
-
-	// print_stack(stack);

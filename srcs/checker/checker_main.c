@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.c                                          :+:      :+:    :+:   */
+/*   checker_main.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 17:48:08 by mkamei            #+#    #+#             */
-/*   Updated: 2021/08/30 15:13:12 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/02/05 13:19:22 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
-#include <stdio.h>
 
 static int	read_until_newline(char buf[BUFFERSIZE])
 {
@@ -19,12 +18,12 @@ static int	read_until_newline(char buf[BUFFERSIZE])
 	int		readsize;
 	int		read_status;
 
-	readsize = read(0, buf, BUFFERSIZE - 4);
+	readsize = read(STDIN_FILENO, buf, BUFFERSIZE - 4);
 	if (readsize <= 0)
 		return (readsize);
 	while (buf[readsize - 1] != '\n')
 	{
-		read_status = read(0, &c, 1);
+		read_status = read(STDIN_FILENO, &c, 1);
 		if (read_status <= 0)
 			return (-1);
 		buf[readsize] = c;
@@ -35,7 +34,7 @@ static int	read_until_newline(char buf[BUFFERSIZE])
 	return (readsize);
 }
 
-static t_status	execute_game_ope_strs(t_stack stack[2], char **ope_strs)
+static t_status	execute_game_ope_strs(t_stack stacks[2], char **ope_strs)
 {
 	int					i;
 	int					j;
@@ -45,14 +44,14 @@ static t_status	execute_game_ope_strs(t_stack stack[2], char **ope_strs)
 	const t_stack_name	second_args[3] = {A, B, AB};
 
 	i = -1;
-	while (ope_strs[++i] != NULL)
+	while (ope_strs[++i])
 	{
 		j = -1;
 		while (++j < 11)
 		{
 			if (ft_strncmp(ope_strs[i], ope_names[j], 4) == 0)
 			{
-				ope_funcs[j / 3](stack, second_args[j % 3], OPE_WRITE_FLAG);
+				ope_funcs[j / 3](stacks, second_args[j % 3], false);
 				break ;
 			}
 		}
@@ -64,12 +63,12 @@ static t_status	execute_game_ope_strs(t_stack stack[2], char **ope_strs)
 	return (SUCCESS);
 }
 
-static void	free_double_pointer(char **strs)
+static void	free_double_ptr(char **strs)
 {
 	int		i;
 
 	i = 0;
-	while (strs[i] != NULL)
+	while (strs[i])
 	{
 		free(strs[i]);
 		i++;
@@ -77,7 +76,7 @@ static void	free_double_pointer(char **strs)
 	free(strs);
 }
 
-static void	receive_game_opes(t_stack stack[2])
+static void	receive_game_opes(t_stack stacks[2])
 {
 	int			readsize;
 	char		buf[BUFFERSIZE];
@@ -88,32 +87,31 @@ static void	receive_game_opes(t_stack stack[2])
 	while (readsize != 0)
 	{
 		if (readsize == -1)
-			exit_by_error(stack);
+			exit_by_error(stacks);
 		buf[readsize] = '\0';
 		ope_strs = ft_split(buf, '\n');
 		if (ope_strs == NULL)
-			exit_by_error(stack);
-		status = execute_game_ope_strs(stack, ope_strs);
-		free_double_pointer(ope_strs);
+			exit_by_error(stacks);
+		status = execute_game_ope_strs(stacks, ope_strs);
+		free_double_ptr(ope_strs);
 		if (status == ERROR)
-			exit_by_error(stack);
+			exit_by_error(stacks);
 		readsize = read_until_newline(buf);
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	t_stack	stack[2];
+	t_stack	stacks[2];
 
 	if (argc <= 1)
 		return (0);
-	init_stack(argc, argv, stack);
-	receive_game_opes(stack);
-	if (check_sort(stack[A]) == 1 && stack[B].depth == 0)
-		write(1, "OK\n", 3);
+	init_stacks(argc, argv, stacks);
+	receive_game_opes(stacks);
+	if (check_sort_stack(stacks[A]) == 1 && stacks[B].depth == 0)
+		write(STDERR_FILENO, "OK\n", 3);
 	else
-		write(1, "KO\n", 3);
-	free(stack[A].array);
-	free(stack[B].array);
+		write(STDERR_FILENO, "KO\n", 3);
+	free_stacks_array(stacks);
 	return (0);
 }
