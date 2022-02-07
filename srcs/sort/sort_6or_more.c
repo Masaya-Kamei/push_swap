@@ -6,7 +6,7 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/25 17:44:22 by mkamei            #+#    #+#             */
-/*   Updated: 2022/02/07 14:19:14 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/02/07 14:29:45 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	bubble_sort_4or_less(
 	bubble_sort_4or_less(stacks, name, min + 1, max);
 }
 
-static void	rev_bubble_sort_4or_less(
+static void	rev_sort_4or_less(
 	t_stack stacks[2], const t_stack_name name, const int min, const int max)
 {
 	int			len;
@@ -46,7 +46,7 @@ static void	rev_bubble_sort_4or_less(
 	if (len <= 0)
 		return ;
 	if (name == A && min == stacks[A].array[bottom - len + 1])
-		return (rev_bubble_sort_4or_less(stacks, A, min + 1, max));
+		return (rev_sort_4or_less(stacks, A, min + 1, max));
 	min_count = 0;
 	while (--len >= 0)
 	{
@@ -99,7 +99,7 @@ static void	rev_quick_sort_6or_more(
 	if (stacks[name].depth == len)
 		return (quick_sort_6or_more(stacks, name, min, max));
 	if (len <= 4)
-		return (rev_bubble_sort_4or_less(stacks, name, min, max));
+		return (rev_sort_4or_less(stacks, name, min, max));
 	if (name == B)
 		min += count_rised_num_from_min(stacks[B], REVERSE, min, max);
 	median = (min + max) / 2;
