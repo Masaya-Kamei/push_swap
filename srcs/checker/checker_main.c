@@ -6,32 +6,29 @@
 /*   By: mkamei <mkamei@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/28 17:48:08 by mkamei            #+#    #+#             */
-/*   Updated: 2022/02/05 13:19:22 by mkamei           ###   ########.fr       */
+/*   Updated: 2022/02/07 13:46:12 by mkamei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
 
-static int	read_until_newline(char buf[BUFFERSIZE])
+static int	read_until_newline(char *buf)
 {
-	char	c;
 	int		readsize;
 	int		read_status;
 
-	readsize = read(STDIN_FILENO, buf, BUFFERSIZE - 4);
-	if (readsize <= 0)
-		return (readsize);
-	while (buf[readsize - 1] != '\n')
+	readsize = 0;
+	while (1)
 	{
-		read_status = read(STDIN_FILENO, &c, 1);
+		read_status = read(STDIN_FILENO, &buf[readsize], 1);
 		if (read_status <= 0)
 			return (-1);
-		buf[readsize] = c;
-		if (readsize == BUFFERSIZE - 1)
-			return (-1);
 		readsize++;
+		if (buf[readsize - 1] == '\n')
+			return (readsize);
+		else if (readsize == 3)
+			return (-1);
 	}
-	return (readsize);
 }
 
 static t_status	execute_game_ope_strs(t_stack stacks[2], char **ope_strs)
@@ -83,11 +80,13 @@ static void	receive_game_opes(t_stack stacks[2])
 	char		**ope_strs;
 	t_status	status;
 
-	readsize = read_until_newline(buf);
+	readsize = read(STDIN_FILENO, buf, BUFFERSIZE - 4);
 	while (readsize != 0)
 	{
 		if (readsize == -1)
 			exit_by_error(stacks);
+		if (buf[readsize - 1] != '\n')
+			readsize += read_until_newline(&buf[readsize]);
 		buf[readsize] = '\0';
 		ope_strs = ft_split(buf, '\n');
 		if (ope_strs == NULL)
@@ -96,7 +95,7 @@ static void	receive_game_opes(t_stack stacks[2])
 		free_double_ptr(ope_strs);
 		if (status == ERROR)
 			exit_by_error(stacks);
-		readsize = read_until_newline(buf);
+		readsize = read(STDIN_FILENO, buf, BUFFERSIZE - 4);
 	}
 }
 

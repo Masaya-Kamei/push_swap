@@ -63,11 +63,11 @@ re		:	fclean all
 
 address	:	CFLAGS		+=	-g -fsanitize=address
 address	:	LIBFTTARGET	:=	address
-address	:	re
+address	:	re checker
 
 leak	:	CC			:=	/usr/local/opt/llvm/bin/clang
 leak	:	CFLAGS		+=	-g -fsanitize=leak
 leak	:	LIBFTTARGET	:=	leak
-leak	:	re
+leak	:	re checker
 
 .PHONY:	all clean fclean re address leak
